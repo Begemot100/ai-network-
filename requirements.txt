@@ -1,0 +1,23 @@
+fastapi
+uvicorn
+sqlmodel
+psycopg2-binary
+confluent-kafka
+redis
+requests
+pydantic
+pydantic-settings
+python-dotenv
+
+# Authentication
+python-jose[cryptography]
+bcrypt
+
+# Form data (file uploads)
+python-multipart
+
+# Database migrations
+alembic
+
+# Monitoring
+prometheus-client

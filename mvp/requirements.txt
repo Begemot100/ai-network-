@@ -1,0 +1,18 @@
+# AI Network MVP - Requirements
+
+# API & Scheduler
+fastapi>=0.100.0
+uvicorn>=0.23.0
+httpx>=0.24.0
+pydantic>=2.0.0
+python-multipart>=0.0.6
+
+# Worker (optional - for real models)
+# torch>=2.0.0
+# transformers>=4.30.0
+# diffusers>=0.20.0
+# accelerate>=0.20.0
+# librosa>=0.10.0
+
+# Utilities
+requests>=2.31.0

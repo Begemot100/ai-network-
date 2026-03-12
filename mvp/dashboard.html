@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Network Dashboard</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body { background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%); }
+    </style>
+</head>
+<body class="text-white min-h-screen p-8">
+    <div class="max-w-4xl mx-auto">
+        <h1 class="text-4xl font-bold mb-2">AI Network</h1>
+        <p class="text-gray-400 mb-8">Decentralized AI Computing Platform</p>
+
+        <!-- Stats -->
+        <div class="grid grid-cols-4 gap-4 mb-8">
+            <div class="bg-white/10 rounded-xl p-6 text-center">
+                <div id="workers" class="text-3xl font-bold text-emerald-400">-</div>
+                <div class="text-gray-400">Workers</div>
+            </div>
+            <div class="bg-white/10 rounded-xl p-6 text-center">
+                <div id="completed" class="text-3xl font-bold text-emerald-400">-</div>
+                <div class="text-gray-400">Completed</div>
+            </div>
+            <div class="bg-white/10 rounded-xl p-6 text-center">
+                <div id="pending" class="text-3xl font-bold text-yellow-400">-</div>
+                <div class="text-gray-400">Pending</div>
+            </div>
+            <div class="bg-white/10 rounded-xl p-6 text-center">
+                <div id="processing" class="text-3xl font-bold text-blue-400">-</div>
+                <div class="text-gray-400">Processing</div>
+            </div>
+        </div>
+
+        <!-- Workers -->
+        <div class="bg-white/10 rounded-xl p-6 mb-8">
+            <h2 class="text-xl font-bold mb-4">Workers</h2>
+            <div id="workersList" class="space-y-2">
+                <div class="text-gray-400">Loading...</div>
+            </div>
+        </div>
+
+        <!-- Test API -->
+        <div class="bg-white/10 rounded-xl p-6 mb-8">
+            <h2 class="text-xl font-bold mb-4">Test API</h2>
+            <div class="flex gap-4 mb-4">
+                <input id="prompt" type="text" placeholder="Enter message..."
+                    class="flex-1 bg-white/10 border border-gray-600 rounded-lg p-3 text-white"
+                    value="Hello! What is 2+2?">
+                <button onclick="sendChat()"
+                    class="bg-emerald-500 hover:bg-emerald-600 px-6 rounded-lg font-medium">
+                    Send
+                </button>
+            </div>
+            <div id="response" class="bg-black/30 rounded-lg p-4 min-h-[100px]">
+                <span class="text-gray-400">Response will appear here...</span>
+            </div>
+        </div>
+
+        <!-- Config -->
+        <div class="text-sm text-gray-400">
+            <p>Scheduler: <span id="schedulerUrl">http://localhost:8001</span></p>
+            <p>API: <span id="apiUrl">http://localhost:8090</span></p>
+        </div>
+    </div>
+
+    <script>
+        const SCHEDULER_URL = 'http://localhost:8001';
+        const API_URL = 'http://localhost:8090';
+
+        async function updateStats() {
+            try {
+                const resp = await fetch(SCHEDULER_URL + '/stats');
+                const data = await resp.json();
+
+                document.getElementById('workers').textContent = data.workers.active;
+                document.getElementById('completed').textContent = data.tasks.completed;
+                document.getElementById('pending').textContent = data.tasks.pending;
+                document.getElementById('processing').textContent = data.tasks.processing;
+            } catch (e) {
+                console.error('Stats error:', e);
+            }
+        }
+
+        async function updateWorkers() {
+            try {
+                const resp = await fetch(SCHEDULER_URL + '/workers');
+                const data = await resp.json();
+
+                const list = document.getElementById('workersList');
+                if (data.workers.length === 0) {
+                    list.innerHTML = '<div class="text-gray-400">No workers connected</div>';
+                    return;
+                }
+
+                list.innerHTML = data.workers.map(w => `
+                    <div class="flex justify-between items-center bg-white/5 rounded-lg p-3">
+                        <div>
+                            <span class="font-medium">${w.id}</span>
+                            <span class="text-gray-400 text-sm ml-2">[${w.capabilities.join(', ')}]</span>
+                        </div>
+                        <div class="flex items-center gap-4">
+                            <span class="text-emerald-400">${w.tasks_completed} tasks</span>
+                            <span class="px-2 py-1 rounded text-xs ${w.status === 'idle' ? 'bg-green-500/20 text-green-400' : 'bg-blue-500/20 text-blue-400'}">
+                                ${w.status}
+                            </span>
+                        </div>
+                    </div>
+                `).join('');
+            } catch (e) {
+                console.error('Workers error:', e);
+            }
+        }
+
+        async function sendChat() {
+            const prompt = document.getElementById('prompt').value;
+            const responseDiv = document.getElementById('response');
+
+            responseDiv.innerHTML = '<span class="text-yellow-400">Sending...</span>';
+
+            try {
+                const resp = await fetch(API_URL + '/v1/chat/completions', {
+                    method: 'POST',
+                    headers: {'Content-Type': 'application/json'},
+                    body: JSON.stringify({
+                        model: 'gpt-3.5-turbo',
+                        messages: [{role: 'user', content: prompt}]
+                    })
+                });
+
+                const data = await resp.json();
+                const content = data.choices?.[0]?.message?.content || JSON.stringify(data);
+                responseDiv.innerHTML = `<span class="text-emerald-400">${content}</span>`;
+
+                // Update stats after request
+                setTimeout(updateStats, 500);
+
+            } catch (e) {
+                responseDiv.innerHTML = `<span class="text-red-400">Error: ${e.message}</span>`;
+            }
+        }
+
+        // Initial load
+        updateStats();
+        updateWorkers();
+
+        // Auto-refresh
+        setInterval(updateStats, 2000);
+        setInterval(updateWorkers, 5000);
+    </script>
+</body>
+</html>

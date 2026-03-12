@@ -1,0 +1,27 @@
+from kafka import KafkaProducer
+import json, uuid
+
+producer = KafkaProducer(
+    bootstrap_servers="localhost:29092",   # <-- ВОТ ЗДЕСЬ
+    value_serializer=lambda v: json.dumps(v).encode("utf-8"),
+)
+
+JOB_ID = str(uuid.uuid4())
+N = 2_000_000
+CHUNK = 250_000
+
+for idx, start in enumerate(range(0, N, CHUNK)):
+    producer.send("ai.tasks", {
+        "job_id": JOB_ID,
+        "chunk_id": idx,
+        "payload": {
+            "type": "prime_count",
+            "start": start,
+            "end": min(start + CHUNK, N),
+        }
+    })
+
+producer.flush()
+print("job sent:", JOB_ID)
+
+

@@ -1,0 +1,9 @@
+psutil
+kafka-python
+psycopg2-binary
+requests
+Pillow
+transformers
+torch
+sentencepiece
+sacremoses

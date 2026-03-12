@@ -1,0 +1,25 @@
+FROM python:3.11-slim
+
+WORKDIR /app
+
+# --- системные зависимости для confluent_kafka ---
+RUN apt-get update && apt-get install -y \
+    gcc \
+    g++ \
+    librdkafka-dev \
+    && rm -rf /var/lib/apt/lists/*
+
+# --- копируем зависимости ---
+COPY requirements.txt /app/requirements.txt
+
+RUN pip install --no-cache-dir -r requirements.txt
+
+# --- копируем common ---
+COPY common /app/common
+
+# --- копируем сервис ---
+COPY services/task /app/services/task
+
+ENV PYTHONPATH=/app
+
+CMD ["python", "-m", "services.task.main"]

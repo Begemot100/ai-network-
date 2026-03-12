@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>AI Network Admin</title>
+    <style>
+        body {
+            background: #0f0f0f;
+            color: #eee;
+            margin: 0;
+            padding: 20px;
+            font-family: Arial, sans-serif;
+        }
+        h1 {
+            font-size: 28px;
+            margin-bottom: 20px;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 40px;
+            background: #1b1b1b;
+            border-radius: 6px;
+            overflow: hidden;
+        }
+        th, td {
+            padding: 10px;
+            border-bottom: 1px solid #333;
+            text-align: left;
+        }
+        th {
+            background: #222;
+            font-weight: bold;
+        }
+        .btn {
+            padding: 6px 10px;
+            border-radius: 4px;
+            cursor: pointer;
+            border: none;
+        }
+        .approve {
+            background: #1e8f1e;
+            color: white;
+        }
+        .reject {
+            background: #b22222;
+            color: white;
+        }
+        .paid {
+            background: #1167b1;
+            color: white;
+        }
+        .gray {
+            background: #444;
+        }
+    </style>
+    <script>
+        async function action(url) {
+            await fetch(url, {method: "POST"});
+            location.reload();
+        }
+
+        // автообновление раз в 2 сек
+        setInterval(() => location.reload(), 2000);
+    </script>
+</head>
+<body>
+
+<h1>AI Network Admin Dashboard</h1>
+
+<!-- Workers -->
+<h2>Workers</h2>
+<table>
+    <tr>
+        <th>ID</th>
+        <th>Name</th>
+        <th>Power</th>
+        <th>Balance</th>
+        <th>Reputation</th>
+        <th>Level</th>
+        <th>Status</th>
+        <th>Banned?</th>
+    </tr>
+
+    {% for w in workers %}
+    <tr>
+        <td>{{ w.id }}</td>
+        <td>{{ w.name }}</td>
+        <td>{{ w.power }}</td>
+        <td>{{ "%.4f"|format(w.balance) }}</td>
+        <td>{{ "%.3f"|format(w.reputation) }}</td>
+        <td>{{ w.reputation_level }}</td>
+        <td>{{ w.status }}</td>
+        <td>{{ "YES" if w.is_banned else "NO" }}</td>
+    </tr>
+    {% endfor %}
+</table>
+
+
+<!-- Tasks -->
+<h2>Tasks</h2>
+<table>
+    <tr>
+        <th>ID</th>
+        <th>Prompt</th>
+        <th>Type</th>
+        <th>Status</th>
+        <th>Worker</th>
+        <th>Validator</th>
+        <th>Result</th>
+        <th>Updated</th>
+    </tr>
+
+    {% for t in tasks %}
+    <tr>
+        <td>{{ t.id }}</td>
+        <td>{{ t.prompt }}</td>
+        <td>{{ t.task_type }}</td>
+        <td>{{ t.status }}</td>
+        <td>{{ t.worker_id }}</td>
+        <td>{{ t.validator_worker_id }}</td>
+        <td>{{ t.result }}</td>
+        <td>{{ "%.0f"|format(t.updated_at) }}</td>
+    </tr>
+    {% endfor %}
+</table>
+
+
+<!-- Transactions -->
+<h2>Transactions</h2>
+<table>
+    <tr>
+        <th>ID</th>
+        <th>Worker</th>
+        <th>Amount</th>
+        <th>Description</th>
+        <th>Time</th>
+    </tr>
+
+    {% for tx in txs %}
+    <tr>
+        <td>{{ tx.id }}</td>
+        <td>{{ tx.worker_id }}</td>
+        <td>{{ "%.4f"|format(tx.amount) }}</td>
+        <td>{{ tx.description }}</td>
+        <td>{{ "%.0f"|format(tx.timestamp|float) }}</td>
+    </tr>
+    {% endfor %}
+</table>
+
+
+
+<!-- Withdrawals -->
+<h2>Withdrawal Requests</h2>
+<table>
+    <tr>
+        <th>ID</th>
+        <th>Worker</th>
+        <th>Amount</th>
+        <th>Status</th>
+        <th>Actions</th>
+        <th>Time</th>
+    </tr>
+
+    {% for r in withdrawals %}
+    <tr>
+        <td>{{ r.id }}</td>
+        <td>{{ r.worker_id }}</td>
+        <td>{{ r.amount }}</td>
+        <td>{{ r.status }}</td>
+        <td>
+
+            {% if r.status == "pending" %}
+                <button class="btn approve" onclick="action('/wallet/approve/{{r.id}}')">Approve</button>
+                <button class="btn reject" onclick="action('/wallet/reject/{{r.id}}')">Reject</button>
+            {% elif r.status == "approved" %}
+                <button class="btn paid" onclick="action('/wallet/paid/{{r.id}}')">Mark Paid</button>
+            {% else %}
+                <button class="btn gray" disabled>No Action</button>
+            {% endif %}
+
+        </td>
+        <td>{{ "%.0f"|format(r.timestamp|float) }}</td>
+    </tr>
+    {% endfor %}
+</table>
+<script>
+let ws = new WebSocket("ws://localhost:8000/ws");
+
+ws.onmessage = (event) => {
+    let data = JSON.parse(event.data);
+
+    console.log("WS:", data);
+
+    if (data.type === "task_assigned") {
+        addLog(`Worker #${data.worker_id} получил задачу #${data.task_id}: ${data.prompt}`);
+    }
+    if (data.type === "task_completed") {
+        addLog(`Worker #${data.worker_id} завершил задачу #${data.task_id} → ${data.reward}$`);
+    }
+};
+
+function addLog(text) {
+    let el = document.getElementById("log");
+    el.innerHTML = `<div>${text}</div>` + el.innerHTML;
+}
+</script>
+
+</body>
+</html>

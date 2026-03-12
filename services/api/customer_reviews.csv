@@ -1,0 +1,21 @@
+id,customer_id,source,text,created_at
+1,1001,shop,"Delivery was late and the box was damaged",2025-01-01
+2,1002,shop,"Great quality, I really love this product",2025-01-01
+3,1003,shop,"Support did not answer my email for three days",2025-01-02
+4,1004,shop,"The price is too high for what you get",2025-01-02
+5,1005,shop,"Everything works perfectly, very satisfied",2025-01-03
+6,1006,shop,"Late delivery again, very disappointed",2025-01-03
+7,1007,shop,"Good product but the instructions are unclear",2025-01-04
+8,1008,shop,"I hate the new interface after the update",2025-01-04
+9,1009,shop,"Fast delivery and friendly support",2025-01-05
+10,1010,shop,"The app crashes постоянно, unusable",2025-01-05
+11,1011,shop,"Amazing design, works smoothly",2025-01-06
+12,1012,shop,"Payment failed twice, bad experience",2025-01-06
+13,1013,shop,"Customer service solved my issue quickly",2025-01-07
+14,1014,shop,"Too many bugs after last release",2025-01-07
+15,1015,shop,"I love it, will recommend to friends",2025-01-08
+16,1016,shop,"Delivery was ok, but packaging was broken",2025-01-08
+17,1017,shop,"Price is fair and quality is good",2025-01-09
+18,1018,shop,"Support is slow and unhelpful",2025-01-09
+19,1019,shop,"Works as expected, nothing special",2025-01-10
+20,1020,shop,"Very bad experience, I want a refund",2025-01-10

@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Network — Distributed AI Computing</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        .gradient-bg {
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+        }
+        .glow {
+            box-shadow: 0 0 40px rgba(16, 185, 129, 0.3);
+        }
+    </style>
+</head>
+<body class="gradient-bg text-white min-h-screen">
+    <!-- Navigation -->
+    <nav class="container mx-auto px-6 py-4">
+        <div class="flex items-center justify-between">
+            <div class="text-2xl font-bold text-emerald-400">AI Network</div>
+            <div class="space-x-6">
+                <a href="#features" class="hover:text-emerald-400 transition">Features</a>
+                <a href="#pricing" class="hover:text-emerald-400 transition">Pricing</a>
+                <a href="#earn" class="hover:text-emerald-400 transition">Earn</a>
+                <a href="https://github.com/your-repo" class="hover:text-emerald-400 transition">GitHub</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero -->
+    <section class="container mx-auto px-6 py-20 text-center">
+        <h1 class="text-5xl md:text-7xl font-bold mb-6">
+            Decentralized <span class="text-emerald-400">AI</span> Computing
+        </h1>
+        <p class="text-xl text-gray-300 mb-10 max-w-2xl mx-auto">
+            Earn money with your GPU or access cheap AI APIs.
+            Open source, transparent, community-driven.
+        </p>
+        <div class="flex justify-center space-x-4">
+            <a href="#earn" class="bg-emerald-500 hover:bg-emerald-600 px-8 py-4 rounded-lg font-semibold text-lg transition glow">
+                💰 Start Earning
+            </a>
+            <a href="#api" class="border border-emerald-500 hover:bg-emerald-500/20 px-8 py-4 rounded-lg font-semibold text-lg transition">
+                🚀 Try API
+            </a>
+        </div>
+
+        <!-- Stats -->
+        <div class="grid grid-cols-3 gap-8 mt-20 max-w-3xl mx-auto">
+            <div class="bg-white/5 rounded-xl p-6">
+                <div class="text-4xl font-bold text-emerald-400">500+</div>
+                <div class="text-gray-400">Active Workers</div>
+            </div>
+            <div class="bg-white/5 rounded-xl p-6">
+                <div class="text-4xl font-bold text-emerald-400">1M+</div>
+                <div class="text-gray-400">Tasks Completed</div>
+            </div>
+            <div class="bg-white/5 rounded-xl p-6">
+                <div class="text-4xl font-bold text-emerald-400">50%</div>
+                <div class="text-gray-400">Cheaper than Cloud</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- How it works -->
+    <section class="container mx-auto px-6 py-20">
+        <h2 class="text-4xl font-bold text-center mb-16">How It Works</h2>
+        <div class="grid md:grid-cols-3 gap-8">
+            <div class="bg-white/5 rounded-xl p-8 text-center">
+                <div class="text-5xl mb-4">🖥️</div>
+                <h3 class="text-xl font-semibold mb-4">Connect GPU</h3>
+                <p class="text-gray-400">Workers connect their GPUs to the network with a simple setup.</p>
+            </div>
+            <div class="bg-white/5 rounded-xl p-8 text-center">
+                <div class="text-5xl mb-4">⚡</div>
+                <h3 class="text-xl font-semibold mb-4">Process Tasks</h3>
+                <p class="text-gray-400">Image generation, transcription, LLM inference — all distributed.</p>
+            </div>
+            <div class="bg-white/5 rounded-xl p-8 text-center">
+                <div class="text-5xl mb-4">💰</div>
+                <h3 class="text-xl font-semibold mb-4">Get Paid</h3>
+                <p class="text-gray-400">Automatic payments for completed tasks. Withdraw anytime.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features -->
+    <section id="features" class="container mx-auto px-6 py-20">
+        <h2 class="text-4xl font-bold text-center mb-16">Features</h2>
+        <div class="grid md:grid-cols-2 gap-8">
+            <div class="bg-white/5 rounded-xl p-8">
+                <h3 class="text-2xl font-semibold mb-4 text-emerald-400">🎨 Stable Diffusion</h3>
+                <p class="text-gray-400 mb-4">Generate images with SDXL, SD 2.1, and more. $0.01 per image.</p>
+                <code class="bg-black/30 px-4 py-2 rounded text-sm">POST /v1/images/generations</code>
+            </div>
+            <div class="bg-white/5 rounded-xl p-8">
+                <h3 class="text-2xl font-semibold mb-4 text-emerald-400">🎙️ Whisper</h3>
+                <p class="text-gray-400 mb-4">Transcribe audio in 100+ languages. $0.001 per minute.</p>
+                <code class="bg-black/30 px-4 py-2 rounded text-sm">POST /v1/audio/transcriptions</code>
+            </div>
+            <div class="bg-white/5 rounded-xl p-8">
+                <h3 class="text-2xl font-semibold mb-4 text-emerald-400">💬 Chat / LLM</h3>
+                <p class="text-gray-400 mb-4">OpenAI-compatible chat API. Drop-in replacement.</p>
+                <code class="bg-black/30 px-4 py-2 rounded text-sm">POST /v1/chat/completions</code>
+            </div>
+            <div class="bg-white/5 rounded-xl p-8">
+                <h3 class="text-2xl font-semibold mb-4 text-emerald-400">🔢 Embeddings</h3>
+                <p class="text-gray-400 mb-4">Generate text embeddings for RAG, search, and more.</p>
+                <code class="bg-black/30 px-4 py-2 rounded text-sm">POST /v1/embeddings</code>
+            </div>
+        </div>
+    </section>
+
+    <!-- Pricing -->
+    <section id="pricing" class="container mx-auto px-6 py-20">
+        <h2 class="text-4xl font-bold text-center mb-16">Pricing</h2>
+        <div class="max-w-4xl mx-auto">
+            <div class="bg-white/5 rounded-xl overflow-hidden">
+                <table class="w-full">
+                    <thead class="bg-white/10">
+                        <tr>
+                            <th class="px-6 py-4 text-left">Service</th>
+                            <th class="px-6 py-4 text-left">AI Network</th>
+                            <th class="px-6 py-4 text-left">OpenAI</th>
+                            <th class="px-6 py-4 text-left">Savings</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr class="border-t border-white/10">
+                            <td class="px-6 py-4">Chat (GPT-4 level)</td>
+                            <td class="px-6 py-4 text-emerald-400">$0.01 / 1K tokens</td>
+                            <td class="px-6 py-4 text-gray-400">$0.03 / 1K tokens</td>
+                            <td class="px-6 py-4 text-emerald-400">70%</td>
+                        </tr>
+                        <tr class="border-t border-white/10">
+                            <td class="px-6 py-4">Image Generation</td>
+                            <td class="px-6 py-4 text-emerald-400">$0.01 / image</td>
+                            <td class="px-6 py-4 text-gray-400">$0.04 / image</td>
+                            <td class="px-6 py-4 text-emerald-400">75%</td>
+                        </tr>
+                        <tr class="border-t border-white/10">
+                            <td class="px-6 py-4">Transcription</td>
+                            <td class="px-6 py-4 text-emerald-400">$0.001 / minute</td>
+                            <td class="px-6 py-4 text-gray-400">$0.006 / minute</td>
+                            <td class="px-6 py-4 text-emerald-400">83%</td>
+                        </tr>
+                        <tr class="border-t border-white/10">
+                            <td class="px-6 py-4">Embeddings</td>
+                            <td class="px-6 py-4 text-emerald-400">$0.0001 / 1K tokens</td>
+                            <td class="px-6 py-4 text-gray-400">$0.0004 / 1K tokens</td>
+                            <td class="px-6 py-4 text-emerald-400">75%</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </section>
+
+    <!-- Earn -->
+    <section id="earn" class="container mx-auto px-6 py-20">
+        <h2 class="text-4xl font-bold text-center mb-6">Earn with Your GPU</h2>
+        <p class="text-xl text-gray-400 text-center mb-16 max-w-2xl mx-auto">
+            Turn your idle GPU into a money-making machine. 24/7 passive income.
+        </p>
+
+        <div class="grid md:grid-cols-3 gap-8 max-w-4xl mx-auto">
+            <div class="bg-white/5 rounded-xl p-8 text-center">
+                <div class="text-4xl mb-4">RTX 3070</div>
+                <div class="text-3xl font-bold text-emerald-400">$50-100</div>
+                <div class="text-gray-400">per month</div>
+            </div>
+            <div class="bg-white/5 rounded-xl p-8 text-center border-2 border-emerald-500 glow">
+                <div class="text-4xl mb-4">RTX 3080</div>
+                <div class="text-3xl font-bold text-emerald-400">$80-150</div>
+                <div class="text-gray-400">per month</div>
+            </div>
+            <div class="bg-white/5 rounded-xl p-8 text-center">
+                <div class="text-4xl mb-4">RTX 4090</div>
+                <div class="text-3xl font-bold text-emerald-400">$200-400</div>
+                <div class="text-gray-400">per month</div>
+            </div>
+        </div>
+
+        <div class="text-center mt-12">
+            <a href="https://github.com/your-repo" class="bg-emerald-500 hover:bg-emerald-600 px-8 py-4 rounded-lg font-semibold text-lg transition inline-block">
+                Start Earning Now →
+            </a>
+        </div>
+    </section>
+
+    <!-- API Demo -->
+    <section id="api" class="container mx-auto px-6 py-20">
+        <h2 class="text-4xl font-bold text-center mb-16">Try the API</h2>
+        <div class="max-w-3xl mx-auto bg-black/30 rounded-xl p-6 overflow-x-auto">
+            <pre class="text-sm"><code class="text-emerald-400"># Just change the base URL — works with OpenAI SDK!</code>
+
+<code class="text-gray-300">from openai import OpenAI
+
+client = OpenAI(
+    base_url="https://api.ai-network.io/v1",
+    api_key="your-api-key"
+)
+
+<code class="text-blue-400"># Chat</code>
+response = client.chat.completions.create(
+    model="gpt-3.5-turbo",
+    messages=[{"role": "user", "content": "Hello!"}]
+)
+
+<code class="text-blue-400"># Image Generation</code>
+image = client.images.generate(
+    prompt="a cat in space",
+    size="512x512"
+)
+
+<code class="text-blue-400"># Transcription</code>
+transcript = client.audio.transcriptions.create(
+    file=open("audio.mp3", "rb"),
+    model="whisper-1"
+)</code></pre>
+        </div>
+    </section>
+
+    <!-- CTA -->
+    <section class="container mx-auto px-6 py-20 text-center">
+        <h2 class="text-4xl font-bold mb-6">Ready to Join?</h2>
+        <p class="text-xl text-gray-400 mb-10">
+            Open source, community-driven, transparent.
+        </p>
+        <div class="flex justify-center space-x-4">
+            <a href="https://github.com/your-repo" class="bg-white/10 hover:bg-white/20 px-8 py-4 rounded-lg font-semibold transition flex items-center space-x-2">
+                <span>⭐</span> <span>Star on GitHub</span>
+            </a>
+            <a href="https://discord.gg/your-server" class="bg-indigo-600 hover:bg-indigo-700 px-8 py-4 rounded-lg font-semibold transition flex items-center space-x-2">
+                <span>💬</span> <span>Join Discord</span>
+            </a>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="border-t border-white/10 py-10">
+        <div class="container mx-auto px-6 text-center text-gray-400">
+            <p>© 2024 AI Network. Open source under MIT License.</p>
+            <div class="mt-4 space-x-6">
+                <a href="#" class="hover:text-white transition">GitHub</a>
+                <a href="#" class="hover:text-white transition">Discord</a>
+                <a href="#" class="hover:text-white transition">Twitter</a>
+                <a href="#" class="hover:text-white transition">Docs</a>
+            </div>
+        </div>
+    </footer>
+</body>
+</html>

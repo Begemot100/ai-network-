@@ -1,0 +1,38 @@
+import json
+import time
+from common.kafka_client import get_consumer, get_producer
+
+consumer = get_consumer("worker-service", ["tasks.to_workers"])
+producer = get_producer()
+
+def process(prompt: str) -> str:
+    """Простая обработка — потом заменим на реальную AI работу"""
+    time.sleep(1)
+    return prompt.upper()
+
+def loop():
+    while True:
+        msg = consumer.poll(1.0)
+        if msg is None:
+            continue
+
+        if msg.error():
+            print("Kafka error:", msg.error())
+            continue
+
+        data = json.loads(msg.value().decode())
+        task_id = data["task_id"]
+        prompt = data["prompt"]
+
+        result = process(prompt)
+        print(f"[WORKER] Task {task_id} → {result}")
+
+        producer.produce(
+            "tasks.completed",
+            json.dumps({"task_id": task_id, "result": result}).encode()
+        )
+        producer.flush()
+
+if __name__ == "__main__":
+    loop()
+

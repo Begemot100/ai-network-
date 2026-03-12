@@ -1,0 +1,60 @@
+version: '3.8'
+
+services:
+  # API Gateway - OpenAI compatible
+  api:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    command: python -m uvicorn api.server:app --host 0.0.0.0 --port 8000
+    ports:
+      - "8000:8000"
+    environment:
+      - SCHEDULER_URL=http://scheduler:8001
+    depends_on:
+      - scheduler
+    restart: unless-stopped
+
+  # Task Scheduler
+  scheduler:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    command: python -m uvicorn scheduler.scheduler:app --host 0.0.0.0 --port 8001
+    ports:
+      - "8001:8001"
+    restart: unless-stopped
+
+  # Worker (CPU mode)
+  worker:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    command: python worker/worker.py --scheduler http://scheduler:8001
+    environment:
+      - SCHEDULER_URL=http://scheduler:8001
+      - USE_REAL_MODEL=false
+    depends_on:
+      - scheduler
+    restart: unless-stopped
+    deploy:
+      replicas: 2
+
+  # Worker with GPU (uncomment if you have NVIDIA GPU)
+  # worker-gpu:
+  #   build:
+  #     context: .
+  #     dockerfile: Dockerfile.gpu
+  #   command: python worker/worker.py --scheduler http://scheduler:8001
+  #   environment:
+  #     - SCHEDULER_URL=http://scheduler:8001
+  #     - USE_REAL_MODEL=true
+  #   depends_on:
+  #     - scheduler
+  #   deploy:
+  #     resources:
+  #       reservations:
+  #         devices:
+  #           - driver: nvidia
+  #             count: 1
+  #             capabilities: [gpu]
